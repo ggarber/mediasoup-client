@@ -172,16 +172,11 @@ export function extractDtlsParameters(
 ): DtlsParameters
 {
 	const mediaObject = (sdpObject.media || [])
-		.find((m: { iceUfrag: string; port: number }) => (
-			m.iceUfrag && m.port !== 0
+		.find((m: { port: number }) => (
+			m.port !== 0
 		));
 
-	if (!mediaObject)
-	{
-		throw new Error('no active media section found');
-	}
-
-	const fingerprint = mediaObject.fingerprint || sdpObject.fingerprint;
+	const fingerprint = mediaObject?.fingerprint || sdpObject.fingerprint;
 	let role: DtlsRole | undefined;
 
 	switch (mediaObject.setup)
